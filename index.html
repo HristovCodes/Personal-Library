@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Personal Library</title>
+  </head>
+  <body>
+    <main>
+      <div id="grid" class="grid">
+        <form class="booksubm">
+          <label for="title">Enter book's title</label>
+          <input id="title" type="text" name="title" />
+
+          <label for="author">Enter author's name</label>
+          <input id="author" type="text" name="author" />
+
+          <label for="category">Enter book's category</label>
+          <input id="category" type="text" name="category" />
+
+          <p>Have you read this book before</p>
+          <label
+            ><input
+              id="readyes"
+              type="radio"
+              value="yes"
+              name="yesno"
+              class=""
+            />Yes</label
+          >
+          <label
+            ><input
+              id="readno"
+              type="radio"
+              value="no"
+              name="yesno"
+              class=""
+            />No</label
+          >
+          <a id="addbook">Add book</a>
+        </form>
+        <h1 class="pagetitle">Welcome to <span>MyBooks</span></h1>
+        <div id="library"></div>
+      </div>
+    </main>
+    <script src="js/index.js"></script>
+  </body>
+</html>
