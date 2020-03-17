@@ -37,7 +37,7 @@ body {
   border-radius: 5px;
 }
 
-.booksubm input:active {
+.booksubm input:focus {
   background-color: #ffffff;
   border-color: #b345d4;
   border-radius: 5px;
