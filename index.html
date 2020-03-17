@@ -21,28 +21,33 @@
           <input id="category" type="text" name="category" />
 
           <p>Have you read this book before</p>
-          <label
+          <label class="yesno"
             ><input
               id="readyes"
               type="radio"
               value="yes"
               name="yesno"
-              class=""
+              class="radiobutton"
             />Yes</label
           >
-          <label
+          <label class="yesno"
             ><input
               id="readno"
               type="radio"
               value="no"
               name="yesno"
-              class=""
+              class="radiobutton"
             />No</label
           >
-          <a id="addbook">Add book</a>
+          <a id="addbook" class="addbook">Add book</a>
         </form>
         <h1 class="pagetitle">Welcome to <span>MyBooks</span></h1>
-        <div id="library"></div>
+        <img
+          src="https://images.unsplash.com/photo-1517770413964-df8ca61194a6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+          alt="book"
+          class="image"
+        />
+        <div id="library" class="library"></div>
       </div>
     </main>
     <script src="js/index.js"></script>

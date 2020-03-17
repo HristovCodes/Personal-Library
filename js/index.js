@@ -9,10 +9,14 @@ const categoriesContainer = document.getElementById("categories");
 let yesno = false;
 let storage = window.localStorage;
 function Book(title, author, category, read) {
-  this.title = title;
-  this.author = author;
-  this.category = category;
-  this.read = read;
+  this.title = "Title: " + title;
+  this.author = "Author: " + author;
+  this.category = "Category: " + category;
+  if (read == true) {
+    this.read = "Finished reading";
+  } else {
+    this.read = "Needs to be read";
+  }
 }
 
 loadLibrary();
