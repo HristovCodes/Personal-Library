@@ -1,4 +1,5 @@
-let myLibrary = [];
+import db from "./firebase.js";
+
 const gridElement = document.getElementById("grid");
 const titleInput = document.getElementById("title");
 const authorInput = document.getElementById("author");
@@ -6,8 +7,11 @@ const categoryInput = document.getElementById("category");
 const readYesInput = document.getElementById("readyes");
 const readNoInput = document.getElementById("readno");
 const categoriesContainer = document.getElementById("categories");
+const library = document.getElementById("library");
 let yesno = false;
-let storage = window.localStorage;
+
+loadLibrary();
+
 function Book(title, author, category, read) {
   this.title = "Title: " + title;
   this.author = "Author: " + author;
@@ -19,7 +23,6 @@ function Book(title, author, category, read) {
   }
 }
 
-loadLibrary();
 document.getElementById("addbook").addEventListener("click", createNewBook);
 
 readYesInput.addEventListener("click", () => {
@@ -32,56 +35,48 @@ readNoInput.addEventListener("click", () => {
 
 function createNewBook() {
   let book = new Book(
-    titleInput.value,
-    authorInput.value,
-    categoryInput.value,
-    yesno
+    titleInput.value === "" ? "Harry Potter" : titleInput.value,
+    authorInput.value === "" ? "J. K. Rowling" : authorInput.value,
+    categoryInput.value === "" ? "Fantasy" : categoryInput.value,
+    yesno === null ? true : false
   );
-  let lib = "";
-  if (storage.length === 0) {
-    myLibrary.push(book);
-    lib = JSON.stringify(myLibrary);
-    storage.setItem("books", lib);
-    addBookToLibrary(book);
-  } else {
-    myLibrary = JSON.parse(storage.getItem("books"));
-    lib = JSON.stringify(myLibrary);
-    if (!lib.includes(JSON.stringify(book))) {
-      myLibrary.push(book);
-      lib = JSON.stringify(myLibrary);
-      storage.setItem("books", lib);
-      addBookToLibrary(book);
-    }
-  }
+  clearForm();
+  //test to see if it writes to db
+  db.setBook(window.localStorage.getItem("userID"), book, book.title);
+  loadLibrary();
 }
 
-function addBookToLibrary(book) {
-  let bookcard = document.createElement("div");
-  bookcard.classList.add("card");
-  let title = document.createElement("h2");
-  title.classList.add("title");
-  title.innerText = book.title;
-  let author = document.createElement("h3");
-  author.classList.add("author");
-  author.innerText = book.author;
-  let category = document.createElement("h3");
-  category.classList.add("category");
-  category.innerText = book.category;
-  let read = document.createElement("p");
-  read.classList.add("read");
-  read.innerText = book.read;
-  bookcard.append(title);
-  bookcard.append(author);
-  bookcard.append(category);
-  bookcard.append(read);
-  document.getElementById("library").append(bookcard);
+async function loadLibrary() {
+  const lib = await db.getLib(window.localStorage.getItem("userID"));
+  const libData = Object.values(lib);
+  library.innerHTML = "";
+  libData.forEach((el) => {
+    let bookcard = document.createElement("div");
+    let title = document.createElement("h2");
+    let author = document.createElement("h3");
+    let category = document.createElement("h3");
+    let read = document.createElement("p");
+    bookcard.classList.add("card");
+    title.classList.add("title");
+    author.classList.add("author");
+    category.classList.add("category");
+    read.classList.add("read");
+    title.innerText = el.title;
+    author.innerText = el.author;
+    category.innerText = el.category;
+    read.innerText = el.read;
+    bookcard.append(title);
+    bookcard.append(author);
+    bookcard.append(category);
+    bookcard.append(read);
+    library.append(bookcard);
+  });
 }
 
-function loadLibrary() {
-  if (storage.length !== 0) {
-    myLibrary = JSON.parse(storage.getItem("books"));
-    myLibrary.forEach(book => {
-      addBookToLibrary(book);
-    });
-  }
+function clearForm() {
+  titleInput.value = "";
+  authorInput.value = "";
+  categoryInput.value = "";
+  readNoInput.checked = false;
+  readYesInput.checked = false;
 }
