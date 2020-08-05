@@ -19,7 +19,7 @@ class firebaseDB {
       .ref("users/" + id)
       .once("value")
       .then((snapshot) => {
-        return snapshot.val();
+        return snapshot.val() === null ? {} : snapshot.val();
       });
   }
 
